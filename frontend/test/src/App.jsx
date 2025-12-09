@@ -37,15 +37,15 @@ function App() {
   const [error, setError] = useState(null)
   const [useLocalLLM, setUseLocalLLM] = useState(false)
   const sanitizedContent = useMemo(() => {
-    if (!response?.data) {
+    if (!response?.answer) {
       return ''
     }
 
-    const rawText = Array.isArray(response.data)
-      ? response.data.join('\n\n')
-      : typeof response.data === 'string'
-        ? response.data
-        : JSON.stringify(response.data, null, 2)
+    const rawText = Array.isArray(response.answer)
+      ? response.answer.join('\n\n')
+      : typeof response.answer === 'string'
+        ? response.answer
+        : JSON.stringify(response.answer, null, 2)
 
     const normalizedText = normalizeMathDelimiters(rawText)
     const html = marked.parse(normalizedText)

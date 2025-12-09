@@ -23,10 +23,15 @@ from test_run import generate_summary
 async def generate_content(request: GenerateContentRequest) -> GenerateContentResponse:
     try:
         logger.info("Generating content with Question")
+        provider = "mistral"
         summary = generate_summary(text=request.question, local_llm=request.local_llm)
 
         return GenerateContentResponse(
-            status="success", message="Content generated successfully", data=summary
+            # status="success", message="Content generated successfully", data=summary
+             originalQuestion=request.question,
+             providerUsed=provider,
+             usedLocalLLM=request.local_llm,
+             answer=summary
         )
     except HTTPException as he:
         raise he

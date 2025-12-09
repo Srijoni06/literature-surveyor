@@ -1,3 +1,4 @@
+from typing import Literal
 from pydantic import BaseModel, Field, field_validator
 
 # Request Classes
@@ -23,11 +24,12 @@ class GenerateContentRequest(BaseModel):
 class GenerateContentResponse(BaseModel):
     """Response model for content generation."""
 
-    status: str = Field(..., description="Status of the content generation")
-    message: str = Field(..., description="Message about the content generation")
-    data: str = Field(..., description="Generated content")
+    originalQuestion: str = Field(..., description="Status of the content generation")
+    providerUsed: Literal["mistral", "gemini"] = Field(..., description="Message about the content generation")
+    usedLocalLLM: bool = Field(..., description="Local LLM or not")
+    answer: str = Field(..., description="Generated content")
 
-    @field_validator("data")
+    @field_validator("answer")
     def validate_data(cls, value: str) -> str:
         """Ensure data is not empty."""
         if not value.strip():
