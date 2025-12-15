@@ -4,7 +4,7 @@ from logger import logger   # import your logger
 
 def call_external_api(url: str, payload: dict):
     try:
-        logger.info(f"Sending request to {url} with payload: {payload:100}")
+        logger.info(f"Sending request to {url} with payload: {payload}")
 
         response = requests.post(url, json=payload, timeout=30)
         response.raise_for_status()
