@@ -3,6 +3,9 @@ from fastapi import APIRouter, HTTPException, status, Query
 from config import settings
 from backend.literature.service import LiteratureService
 
+from backend.ideas.service import IdeaService
+
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -10,7 +13,10 @@ logger = logging.getLogger(__name__)
 api_router = APIRouter(tags=["LS API Services"])
 literature_service = LiteratureService()
 
-from base_requests import GenerateRequest, GenerateResponse
+idea_service = IdeaService()
+
+
+from base_requests import GenerateRequest, GenerateResponse, IdeaRequest, IdeaResponse
 from test_run import generate_summary
 
 
@@ -94,6 +100,16 @@ async def generate_content(request: GenerateRequest) -> GenerateResponse:
             detail=f"Error generating content: {str(e)}",
         )
 
+def llm_call(prompt: str) -> str:
+    return """
+1. Stability Analysis of Hybrid Dynamical Systems
+2. Control of Chaotic Oscillators Using Feedback
+3. Learning-Based Reduced Order Models for PDEs
+"""
+
+
+
+
 print("registering /literature route")
 @api_router.get("/literature", tags=["LS API Services"])
 def literature_retrieval(
@@ -118,3 +134,18 @@ def literature_retrieval(
         # Hard fallback: never fail the pipeline
         return {"papers": literature_service.fetch("", limit)}
 
+
+
+# ---------- PHASE 5 ----------
+@api_router.post(
+    "/ideas",
+    response_model=IdeaResponse,
+    tags=["LS API Services"]
+)
+def idea_generation(request: IdeaRequest):
+    ideas = idea_service.generate(
+        domain=request.domain,
+        venues=request.venues,
+        papers=request.papers,
+    )
+    return {"ideas": ideas}
