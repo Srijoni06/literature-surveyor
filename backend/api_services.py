@@ -110,6 +110,7 @@ async def generate_content(request: GenerateRequest) -> GenerateResponse:
             detail=f"Error generating content: {str(e)}",
 main
         )
+        )
 
 def llm_call(prompt: str) -> str:
     return """
