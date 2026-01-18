@@ -1,10 +1,13 @@
 import logging
 from fastapi import APIRouter, HTTPException, status
 from config import settings
+main
 from backend.literature.service import LiteratureService
 
 from backend.ideas.service import IdeaService
 from quality_filter.relevance_filter import quality_filter
+
+main
 
 # --- IMPORT VENUE DISCOVERY SERVICE ---
 from venue_discovery.service import discover_venues
@@ -105,6 +108,7 @@ async def generate_content(request: GenerateRequest) -> GenerateResponse:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error generating content: {str(e)}",
+main
         )
         )
 
@@ -170,3 +174,6 @@ def idea_generation(request: IdeaRequest):
     )
 
     return {"ideas": ideas}
+
+        )
+main
